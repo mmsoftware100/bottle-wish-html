@@ -1,26 +1,102 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat</title>
-</head>
-<body>
+  </head>
+  <body>
     <script>
-  (function(d,t) {
-    var BASE_URL="https://app.chatwoot.com";
-    var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-    g.src=BASE_URL+"/packs/js/sdk.js";
-    g.async = true;
-    s.parentNode.insertBefore(g,s);
-    g.onload=function(){
-      window.chatwootSDK.run({
-        websiteToken: 'PZVeQRXNsYmwZpJyUciL8TLk',
-        baseUrl: BASE_URL
-      })
-    }
-  })(document,"script");
-</script>
+      (function (d, t) {
+        var BASE_URL = "https://app.chatwoot.com";
+        var g = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+        g.src = BASE_URL + "/packs/js/sdk.js";
+        g.async = true;
+        s.parentNode.insertBefore(g, s);
+        g.onload = function () {
+          window.chatwootSDK.run({
+            websiteToken: "PZVeQRXNsYmwZpJyUciL8TLk",
+            baseUrl: BASE_URL,
+          });
+        };
+      })(document, "script");
 
-</body>
+      setInterval(function () {
+        const element = document.querySelector(
+          "#app > div > div > div > div.px-0.py-3.flex.justify-center",
+        );
+
+        if (element) {
+          element.remove();
+        } else {
+          console.log(
+            "Element not found. Check if the DOM is fully loaded or if the selector has changed.",
+          );
+        }
+      }, 1000);
+    </script>
+
+    <!-- remove this element 
+ 
+#app > div > div > div > div.px-0.py-3.flex.justify-center > a > span
+
+
+#app > div > div > div > div.px-0.py-3.flex.justify-center > a > span
+
+#app > div > div > div > div.px-0.py-3.flex.justify-center > a > span
+
+
+#app > div > div > div > div.px-0.py-3.flex.justify-center
+
+const element = document.querySelector('#app > div > div > div > div.px-0.py-3.flex.justify-center');
+
+if (element) {
+  element.remove();
+} else {
+  console.log("Element not found. Check if the DOM is fully loaded or if the selector has changed.");
+}
+
+
+
+
+const element = document.querySelector('#app > div > div > div > div.px-0.py-3.flex.justify-center > a > span');
+
+if (element) {
+  element.remove();
+} else {
+  console.log("Element not found. Check if the DOM is fully loaded or if the selector has changed.");
+}
+
+-->
+
+    <script>
+      (function () {
+        const targetSelector =
+          "#app > div > div > div > div.px-0.py-3.flex.justify-center";
+
+        const removeElement = (parentElement) => {
+          const observer = new MutationObserver((mutations) => {
+            const element = document.querySelector(targetSelector);
+            if (element) {
+              element.remove();
+              console.log("Branding removed.");
+              // We don't disconnect if the widget re-renders the element later
+            }
+          });
+
+          observer.observe(parentElement, { childList: true, subtree: true });
+        };
+
+        // Wait for the body to exist, then start watching
+        if (document.body) {
+          removeElement(document.body);
+        } else {
+          window.addEventListener("DOMContentLoaded", () =>
+            removeElement(document.body),
+          );
+        }
+      })();
+    </script>
+  </body>
 </html>
